@@ -5,6 +5,13 @@
       {{ status == "input" ? "Join a Class" : `You're In ${creds.name}` }}
     </h3>
     <div v-if="status == 'input'" class="mt-5 max-w-xl mx-auto">
+      <p
+        class="text-center mb-3 text-lg text-blue-700 cursor-pointer"
+        v-show="showMacHelp"
+        @click="macAlert"
+      >
+        Nothing happens on MacOs?
+      </p>
       <input
         type="text"
         placeholder="Session Code"
@@ -14,7 +21,7 @@
       <button
         :disabled="!(creds.name && creds.session_code && peer_id)"
         @click="joinSession"
-        class="w-full"
+        class="w-full disabled:opacity-50"
       >
         Join
       </button>
@@ -49,6 +56,7 @@ export default {
       name: null,
     },
     own_stream: null,
+    join_clicked: false,
   }),
   created() {
     this.peer = new Peer();
@@ -60,6 +68,14 @@ export default {
         video: { cursor: "always", frameRate: { max: 14 } },
       });
       this.own_stream.oninactive = () => location.reload();
+
+      if (
+        this.own_stream.getVideoTracks()[0].getSettings().displaySurface !==
+        "monitor"
+      ) {
+        this.own_stream.getVideoTracks()[0].stop();
+        return alert("Only Entire Screen sharing is allowed");
+      }
 
       setTimeout(() => {
         this.peer.call(host_id, this.own_stream, {
@@ -79,13 +95,24 @@ export default {
 
     this.peer.on("open", (id) => (this.peer_id = id));
   },
+  computed: {
+    showMacHelp() {
+      return this.join_clicked && navigator.platform == "MacIntel";
+    },
+  },
   methods: {
     async joinSession() {
+      this.join_clicked = true;
       this.socket.emit("join_session", {
         id: this.creds.session_code,
         name: this.name,
         peer_id: this.peer_id,
       });
+    },
+    macAlert() {
+      alert(
+        "Go to System Preferences > Security & Privacy > Screen Recording > Check off your browser > Reload and try again."
+      );
     },
   },
 };
@@ -96,6 +123,6 @@ input {
   @apply p-2.5 rounded focus:outline-none bg-gray-100 m-2 w-full;
 }
 button {
-  @apply bg-gray-200 p-2.5 mt-3 ml-2 rounded;
+  @apply bg-red-700 p-2.5 mt-3 ml-2 rounded text-white text-lg;
 }
 </style>

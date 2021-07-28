@@ -1,10 +1,23 @@
 <template>
-  <div>
-    <p class="text-center">
-      {{ status == "started" ? session_code : "Loading Session Code" }}
-    </p>
+  <div class="mt-4">
+    <div class="text-center">
+      <h3 class="text-4xl">Welcome to Beam - Host</h3>
+      <p class="text-2xl mt-2">
+        Ask clients to go to
+        <a
+          class="text-blue-700 font-medium"
+          target="_blank"
+          href="https://getbeam.ml/join"
+          >getbeam.ml/join</a
+        >
+        and enter the class code:
+        <span class="font-medium">{{
+          status == "started" ? session_code : "Loading Session Code"
+        }}</span>
+      </p>
+    </div>
     <p
-      class="text-center cursor-pointer"
+      class="text-center cursor-pointer font-medium text-lg mt-3"
       @click="showLog = !showLog"
       v-show="messageLog.length > 0"
     >
@@ -28,6 +41,9 @@
         </li>
       </ul>
     </div>
+    <h4 class="text-2xl text-center font-medium my-2" v-show="clients.length">
+      {{ clients.length }} Connected Client{{ clients.length > 1 ? "s" : "" }}
+    </h4>
     <input
       class="w-1/2 m-3 rounded p-2 bg-gray-100 focus:outline-none"
       placeholder="search clients"
