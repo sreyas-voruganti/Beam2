@@ -9,9 +9,15 @@ const io = require("socket.io")(server, {
 
 const session_hosts = {};
 
+const generateSessionId = () => uuidv4().substring(0, 6);
+
 io.on("connection", (socket) => {
   socket.on("start_session", (peer_id) => {
-    const sessionId = uuidv4().substring(0, 6);
+    let sessionId = generateSessionId();
+    while (sessionId in session_hosts) {
+      sessionId = generateSessionId();
+    }
+
     socket.u_type = "host";
     socket.session_id = sessionId;
     socket.peer_id = peer_id;

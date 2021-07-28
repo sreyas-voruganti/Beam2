@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4">
     <div class="text-center">
-      <h3 class="text-4xl">Welcome to Beam - Host</h3>
+      <h3 class="text-4xl">Welcome to Beam - Host a Session</h3>
       <p class="text-2xl mt-2">
         Ask clients to go to
         <a
@@ -24,6 +24,10 @@
       {{ showLog ? "Hide" : "Show" }} Log
     </p>
     <div class="bg-gray-100 rounded m-2 p-2.5 w-2/5 mx-auto" v-show="showLog">
+      <div class="text-center mb-2.5">
+        <input type="checkbox" v-model="playSound" />
+        <span>Play sound on new message</span>
+      </div>
       <input
         class="mb-1 w-full rounded px-2 py-1 bg-gray-200 focus:outline-none"
         placeholder="search log"
@@ -41,8 +45,8 @@
         </li>
       </ul>
     </div>
-    <h4 class="text-2xl text-center font-medium my-2" v-show="clients.length">
-      {{ clients.length }} Connected Client{{ clients.length > 1 ? "s" : "" }}
+    <h4 class="text-2xl text-center font-medium my-2">
+      {{ clients.length }} Connected Client{{ clients.length == 1 ? "" : "s" }}
     </h4>
     <input
       class="w-1/2 m-3 rounded p-2 bg-gray-100 focus:outline-none"
@@ -91,6 +95,7 @@ export default {
     logSearch: "",
     showLog: false,
     clientSearch: "",
+    playSound: false,
   }),
   methods: {
     logMessage(msg) {
@@ -98,6 +103,7 @@ export default {
         msg,
         ts: Date.now(),
       });
+      if (this.playSound) new Audio("ding.mp3").play();
     },
     formatDate(d) {
       return format(new Date(d), "hh:mm:ss a");

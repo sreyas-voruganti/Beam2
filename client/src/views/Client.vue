@@ -2,7 +2,7 @@
   <div class="container mt-16 max-w-4xl mx-auto">
     <h3 class="text-4xl text-center">
       Beam -
-      {{ status == "input" ? "Join a Class" : `You're In ${creds.name}` }}
+      {{ status == "input" ? "Join a Session" : `You're In ${creds.name}` }}
     </h3>
     <div v-if="status == 'input'" class="mt-5 max-w-xl mx-auto">
       <p
