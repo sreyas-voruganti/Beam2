@@ -14,6 +14,10 @@
       >
       -
       <span @click="kickClient" class="text-blue-700 cursor-pointer">Kick</span>
+      -
+      <span @click="pauseVideo" class="text-blue-700 cursor-pointer">{{
+        paused ? "Play" : "Pause"
+      }}</span>
     </p>
   </div>
 </template>
@@ -24,12 +28,24 @@ export default {
   props: {
     client: Object,
   },
+  data: () => ({
+    paused: false,
+  }),
   methods: {
     openFullscreen() {
       this.$refs.video.requestFullscreen();
     },
     kickClient() {
       this.$emit("kickClient", this.client.id);
+    },
+    pauseVideo() {
+      if (this.paused) {
+        this.$refs.video.play();
+        this.paused = false;
+      } else {
+        this.$refs.video.pause();
+        this.paused = true;
+      }
     },
   },
 };

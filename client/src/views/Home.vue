@@ -6,6 +6,11 @@
       •
       <router-link to="/host" class="text-blue-700">Host a Session</router-link>
     </p>
+    <p class="mt-3 text-xl">
+      <router-link to="/legal" class="text-blue-700"
+        >Legal Information</router-link
+      >
+    </p>
   </div>
 </template>
 

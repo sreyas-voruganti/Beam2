@@ -20,6 +20,16 @@ const routes = [
     name: "Client",
     component: () => import("../views/Client.vue"),
   },
+  {
+    path: "/legal",
+    name: "Legal",
+    component: () => import("../views/Legal.vue"),
+  },
+  {
+    path: "*",
+    name: "NotFound",
+    component: () => import("../views/NotFound.vue"),
+  },
 ];
 
 const router = new VueRouter({
