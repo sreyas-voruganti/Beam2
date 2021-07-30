@@ -20,7 +20,7 @@
           {{ client.name }}
         </p>
         <video
-          autoplay
+          :autoplay="!paused"
           muted
           :srcObject.prop="client.stream"
           class="border-4 rounded"
