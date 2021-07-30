@@ -20,7 +20,7 @@
           {{ client.name }}
         </p>
         <video
-          :autoplay="!paused"
+          autoplay
           muted
           :srcObject.prop="client.stream"
           class="border-4 rounded"
@@ -29,7 +29,12 @@
         ></video>
         <p class="mt-1 text-xl text-center font-medium">
           <span
-            @click="showFullscreenModal = false"
+            @click="
+              () => {
+                showFullscreenModal = false;
+                paused = false;
+              }
+            "
             class="text-blue-700 cursor-pointer"
             >Close Fullscreen</span
           >
